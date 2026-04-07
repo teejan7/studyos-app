@@ -14,8 +14,7 @@ interface ResourceHubProps {
 const resourceSections = [
   { id: 'youtube' as const, label: 'YouTube Links', placeholder: 'Video title' },
   { id: 'notes' as const, label: 'Notes (Drive Links)', placeholder: 'Note title' },
-  { id: 'question' as const, label: 'Question Papers', placeholder: 'Paper title' },
-  { id: 'important' as const, label: 'Important Questions', placeholder: 'Question title' }
+  { id: 'question' as const, label: 'Question Papers', placeholder: 'Paper title' }
 ];
 
 export default function ResourceHub({ selectedSubject, subjects, resources, setResources }: ResourceHubProps) {
@@ -83,7 +82,7 @@ export default function ResourceHub({ selectedSubject, subjects, resources, setR
                   />
                   <input
                     type="url"
-                    placeholder="Link (optional)"
+                    placeholder="Link"
                     value={link}
                     onChange={(e) => setLink(e.target.value)}
                     className="rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text outline-none focus:border-accent"
