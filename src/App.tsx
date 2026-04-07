@@ -13,10 +13,7 @@ const tabs = [
   { id: 'dashboard', label: 'Dashboard', icon: Cpu },
   { id: 'vault', label: 'Notes Vault', icon: BookOpen },
   { id: 'resources', label: 'Resources', icon: Layers },
-  { id: 'questions', label: 'Question Bank', icon: ClipboardList },
-  { id: 'flashcards', label: 'Quick Revise', icon: Sparkles },
-  { id: 'reminders', label: 'Reminders', icon: Bell },
-  { id: 'progress', label: 'Progress Tracker', icon: ChartBar }
+  { id: 'questions', label: 'Question Bank', icon: ClipboardList }
 ];
 
 const SUBJECTS = EXAMS.map((exam) => ({ code: exam.code, name: exam.name }));
@@ -53,6 +50,11 @@ function App() {
 
   const subjects = useMemo(() => SUBJECTS, []);
 
+  const handleSelectSubject = (subjectCode: string) => {
+    setSelectedSubject(subjectCode);
+    setActiveTab('resources');
+  };
+
   return (
     <div className="min-h-screen bg-bg text-green-100">
       <div className="mx-auto max-w-screen-2xl px-4 py-4">
@@ -64,8 +66,7 @@ function App() {
             onSelectTab={setActiveTab}
             subjects={subjects}
             selectedSubject={selectedSubject}
-            onSelectSubject={setSelectedSubject}
-            reminders={reminders}
+            onSelectSubject={handleSelectSubject}
           />
           <MainPanel
             activeTab={activeTab}

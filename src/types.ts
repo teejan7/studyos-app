@@ -17,7 +17,7 @@ export interface Note {
 export interface Resource {
   id: string;
   subjectCode: string;
-  type: 'youtube' | 'notes' | 'question';
+  type: 'youtube' | 'notes' | 'question' | 'important';
   title: string;
   link: string;
   createdAt: string;
