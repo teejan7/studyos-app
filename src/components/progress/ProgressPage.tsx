@@ -67,13 +67,13 @@ export default function ProgressPage({ selectedSubject, progress, setProgress }:
           </div>
           <div className="mt-4 space-y-3">
             <label className="text-sm text-muted">Set target SGPA</label>
-            <input type="number" step="0.1" min={6.0} max={10.0} value={targetSgpa} onChange={(event) => setTargetSgpa(Number(event.target.value))} className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-green-100" />
+            <input type="number" step="0.1" min={6.0} max={10.0} value={targetSgpa} onChange={(event) => setTargetSgpa(Number(event.target.value))} className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text" />
           </div>
         </div>
         <div className="rounded-xl border border-border bg-deep p-4">
           <div className="text-sm uppercase tracking-[0.18em] text-muted">Daily study log</div>
           <div className="mt-4 space-y-3">
-            <input type="number" min={0} max={12} value={studyHours} onChange={(event) => setStudyHours(Number(event.target.value))} className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-green-100" placeholder="Hours studied today" />
+            <input type="number" min={0} max={12} value={studyHours} onChange={(event) => setStudyHours(Number(event.target.value))} className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text" placeholder="Hours studied today" />
             <div className="rounded-xl border border-border bg-bg p-3 text-sm">Today's logged hours: {studyHours}</div>
           </div>
         </div>

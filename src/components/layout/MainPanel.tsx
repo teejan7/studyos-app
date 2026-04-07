@@ -34,7 +34,7 @@ export default function MainPanel(props: MainPanelProps) {
   const { activeTab } = props;
 
   return (
-    <main className="rounded-xl border border-border bg-surface p-4 text-green-100 shadow-sm">
+    <main className="rounded-xl border border-border bg-surface p-4 text-text shadow-sm">
       {activeTab === 'dashboard' && <Dashboard {...props} />}
       {activeTab === 'vault' && <VaultPage {...props} />}
       {activeTab === 'resources' && <ResourceHub {...props} />}

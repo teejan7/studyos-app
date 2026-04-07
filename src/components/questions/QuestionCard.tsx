@@ -11,7 +11,7 @@ export default function QuestionCard({ question, onToggleStar }: QuestionCardPro
     <div className="rounded-xl border border-border bg-bg p-4 text-sm">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-green-100 font-semibold">{question.text}</div>
+          <div className="text-text font-semibold">{question.text}</div>
           <div className="mt-2 text-xs text-muted">
             {question.subjectCode} · Module {question.module} · {question.type}
           </div>

@@ -53,7 +53,7 @@ export default function ResourceHub({ selectedSubject, subjects, resources, setR
   return (
     <div className="space-y-6">
       <div className="rounded-xl border border-border bg-deep p-4">
-        <div className="text-lg font-semibold text-green-100">{selectedSubjectName} Resources</div>
+        <div className="text-lg font-semibold text-text">{selectedSubjectName} Resources</div>
       </div>
 
       {resourceSections.map((section) => {
@@ -61,7 +61,7 @@ export default function ResourceHub({ selectedSubject, subjects, resources, setR
         return (
           <div key={section.id} className="rounded-xl border border-border bg-deep p-4">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-md font-semibold text-green-100">{section.label}</h3>
+              <h3 className="text-md font-semibold text-text">{section.label}</h3>
               <button
                 onClick={() => setAddingType(section.id)}
                 className="flex items-center gap-2 rounded-lg border border-accent bg-accent/10 px-3 py-2 text-sm text-accent hover:bg-accent/20"
@@ -79,14 +79,14 @@ export default function ResourceHub({ selectedSubject, subjects, resources, setR
                     placeholder={section.placeholder}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="rounded-lg border border-border bg-surface px-3 py-2 text-sm text-green-100 outline-none focus:border-accent"
+                    className="rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text outline-none focus:border-accent"
                   />
                   <input
                     type="url"
                     placeholder="Link (optional)"
                     value={link}
                     onChange={(e) => setLink(e.target.value)}
-                    className="rounded-lg border border-border bg-surface px-3 py-2 text-sm text-green-100 outline-none focus:border-accent"
+                    className="rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text outline-none focus:border-accent"
                   />
                   <div className="flex gap-2">
                     <button
@@ -97,7 +97,7 @@ export default function ResourceHub({ selectedSubject, subjects, resources, setR
                     </button>
                     <button
                       onClick={() => setAddingType(null)}
-                      className="rounded-lg border border-border bg-bg px-4 py-2 text-sm text-green-100 hover:border-accent"
+                      className="rounded-lg border border-border bg-bg px-4 py-2 text-sm text-text hover:border-accent"
                     >
                       Cancel
                     </button>
@@ -110,7 +110,7 @@ export default function ResourceHub({ selectedSubject, subjects, resources, setR
               {sectionResources.map((resource) => (
                 <div key={resource.id} className="flex items-center justify-between rounded-lg border border-border bg-bg p-3">
                   <div className="flex-1">
-                    <div className="font-medium text-green-100">{resource.title}</div>
+                    <div className="font-medium text-text">{resource.title}</div>
                     {resource.link && (
                       <a
                         href={resource.link}

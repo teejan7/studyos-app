@@ -27,11 +27,11 @@ export default function StudyMode({ deck, onReview }: StudyModeProps) {
       </div>
       <div className="mt-4 space-y-3">
         <div className="rounded-xl border border-border bg-deep p-4">
-          <div className="text-green-100 font-semibold">{card.front}</div>
+          <div className="text-text font-semibold">{card.front}</div>
           <div className="mt-3 text-sm text-muted">Tap on the card to reveal the answer.</div>
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
-          <button onClick={() => handleNext(true)} className="rounded-lg border border-border bg-accent px-4 py-2 text-sm font-semibold text-black hover:bg-green-300">
+          <button onClick={() => handleNext(true)} className="rounded-lg border border-border bg-accent px-4 py-2 text-sm font-semibold text-black hover:bg-accent/80">
             Got it
           </button>
           <button onClick={() => handleNext(false)} className="rounded-lg border border-border bg-warn px-4 py-2 text-sm font-semibold text-black hover:bg-orange-400">

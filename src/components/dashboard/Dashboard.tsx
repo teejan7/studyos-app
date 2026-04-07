@@ -57,7 +57,7 @@ export default function Dashboard({ selectedSubject, exams, questions, progress,
                 <ul className="mt-3 space-y-2">
                   {topQuestions.map((item) => (
                     <li key={item.id} className="rounded-xl border border-border bg-bg p-3 text-sm">
-                      <div className="font-medium text-green-100">{item.text}</div>
+                      <div className="font-medium text-text">{item.text}</div>
                       <div className="text-xs text-muted">{item.type} question</div>
                     </li>
                   ))}
@@ -103,7 +103,7 @@ export default function Dashboard({ selectedSubject, exams, questions, progress,
           <div className="mt-3 space-y-2">
             {reminders.slice(0, 4).map((reminder) => (
               <div key={reminder.id} className={`rounded-xl border border-border p-3 ${reminder.priority === 'high' ? 'bg-danger/10' : reminder.priority === 'medium' ? 'bg-warn/10' : 'bg-bg'}`}>
-                <div className="flex items-center justify-between text-sm text-green-100">
+                <div className="flex items-center justify-between text-sm text-text">
                   <span>{reminder.title}</span>
                   <span className="rounded-full border border-border px-2 text-[11px] uppercase text-muted">{reminder.priority}</span>
                 </div>
@@ -123,7 +123,7 @@ export default function Dashboard({ selectedSubject, exams, questions, progress,
                 key={resource.id}
                 type="button"
                 onClick={() => window.open(resource.link, '_blank')}
-                className="flex w-full items-center justify-between rounded-xl border border-border bg-bg p-3 text-left text-sm text-green-100 hover:bg-surface"
+                className="flex w-full items-center justify-between rounded-xl border border-border bg-bg p-3 text-left text-sm text-text hover:bg-surface"
               >
                 <span>{resource.title}</span>
                 <span className="text-xs uppercase tracking-[0.18em] text-muted">{resource.type}</span>

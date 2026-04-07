@@ -34,20 +34,20 @@ export default function QuestionForm({ subjectCode, subjects, onCreate }: Questi
       <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_120px]">
         <textarea
           rows={4}
-          className="col-span-full w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-green-100"
+          className="col-span-full w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text"
           value={text}
           onChange={(event) => setText(event.target.value)}
           placeholder="Question text"
         />
-        <select value={subjectCode} disabled className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-green-100">
+        <select value={subjectCode} disabled className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
           <option>{subjectCode}</option>
         </select>
-        <select value={module} onChange={(event) => setModule(Number(event.target.value))} className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-green-100">
+        <select value={module} onChange={(event) => setModule(Number(event.target.value))} className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
           {[1, 2, 3, 4, 5].map((num) => (
             <option key={num} value={num}>Module {num}</option>
           ))}
         </select>
-        <select value={type} onChange={(event) => setType(event.target.value as any)} className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-green-100">
+        <select value={type} onChange={(event) => setType(event.target.value as any)} className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
           <option value="2mark">2-mark</option>
           <option value="5mark">5-mark</option>
           <option value="10mark">10-mark</option>
@@ -56,7 +56,7 @@ export default function QuestionForm({ subjectCode, subjects, onCreate }: Questi
         </select>
         <input
           type="number"
-          className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-green-100"
+          className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text"
           value={year}
           min={2000}
           max={2030}
@@ -64,7 +64,7 @@ export default function QuestionForm({ subjectCode, subjects, onCreate }: Questi
           placeholder="Year"
         />
       </div>
-      <button onClick={handleSubmit} className="mt-4 rounded-lg border border-border bg-accent px-4 py-2 text-sm font-semibold text-black hover:bg-green-300">
+      <button onClick={handleSubmit} className="mt-4 rounded-lg border border-border bg-accent px-4 py-2 text-sm font-semibold text-black hover:bg-accent/80">
         Add question
       </button>
     </div>

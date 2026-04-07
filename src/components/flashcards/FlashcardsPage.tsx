@@ -56,9 +56,9 @@ export default function FlashcardsPage({ selectedSubject, flashcards, setFlashca
         <div className="rounded-xl border border-border bg-deep p-4">
           <div className="text-sm uppercase tracking-[0.18em] text-muted">Create flashcard</div>
           <div className="mt-4 space-y-3">
-            <textarea value={front} onChange={(event) => setFront(event.target.value)} rows={3} className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-green-100" placeholder="Front: question or concept" />
-            <textarea value={back} onChange={(event) => setBack(event.target.value)} rows={3} className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-green-100" placeholder="Back: answer or formula" />
-            <button onClick={addCard} className="rounded-lg border border-border bg-accent px-4 py-2 text-sm font-semibold text-black hover:bg-green-300">
+            <textarea value={front} onChange={(event) => setFront(event.target.value)} rows={3} className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text" placeholder="Front: question or concept" />
+            <textarea value={back} onChange={(event) => setBack(event.target.value)} rows={3} className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text" placeholder="Back: answer or formula" />
+            <button onClick={addCard} className="rounded-lg border border-border bg-accent px-4 py-2 text-sm font-semibold text-black hover:bg-accent/80">
               Add card
             </button>
           </div>

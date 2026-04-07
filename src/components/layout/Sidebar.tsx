@@ -33,7 +33,7 @@ export default function Sidebar({ tabs, activeTab, onSelectTab, subjects, select
                 key={tab.id}
                 onClick={() => onSelectTab(tab.id)}
                 className={`flex w-full items-center gap-3 rounded-lg border border-border px-3 py-2 text-left text-sm transition ${
-                  activeTab === tab.id ? 'bg-surface text-accent' : 'bg-deep text-green-100 hover:bg-surface'
+                  activeTab === tab.id ? 'bg-surface text-accent' : 'bg-deep text-text hover:bg-surface'
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -51,7 +51,7 @@ export default function Sidebar({ tabs, activeTab, onSelectTab, subjects, select
               key={subject.code}
               onClick={() => onSelectSubject(subject.code)}
               className={`flex w-full items-center justify-between gap-2 rounded-lg border border-border px-3 py-2 text-left text-sm ${
-                selectedSubject === subject.code ? 'bg-surface text-accent' : 'bg-bg text-green-100 hover:bg-surface'
+                selectedSubject === subject.code ? 'bg-surface text-accent' : 'bg-bg text-text hover:bg-surface'
               }`}
             >
               <span>{subject.code}</span>
@@ -60,7 +60,7 @@ export default function Sidebar({ tabs, activeTab, onSelectTab, subjects, select
         </div>
       </div>
       <div className="rounded-lg border border-border bg-surface p-3 text-xs text-muted">
-        <div className="font-semibold text-green-100">Session Notes</div>
+        <div className="font-semibold text-text">Session Notes</div>
         <p className="mt-2 leading-5">Track exam prep, notes, reminders and flashcard progress in one retro terminal UI.</p>
       </div>
     </aside>

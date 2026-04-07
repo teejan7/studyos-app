@@ -9,7 +9,7 @@ export default function ModuleAccordion({ moduleIndex, completed, onToggle }: Mo
     <button
       onClick={onToggle}
       className={`flex w-full items-center justify-between rounded-lg border border-border px-4 py-3 text-left text-sm ${
-        completed ? 'bg-accent/10 text-accent' : 'bg-bg text-green-100 hover:bg-surface'
+        completed ? 'bg-accent/10 text-accent' : 'bg-bg text-text hover:bg-surface'
       }`}
     >
       <span>Module {moduleIndex + 1}</span>

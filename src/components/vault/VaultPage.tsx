@@ -31,6 +31,10 @@ export default function VaultPage({ selectedSubject, subjects, notes, setNotes, 
     setFiles([file, ...files]);
   };
 
+  const handleDeleteFile = (fileId: string) => {
+    setFiles(files.filter((file) => file.id !== fileId));
+  };
+
   const handleToggleModule = (index: number) => {
     if (!progressItem) return;
     const update = progress.map((item) =>
@@ -56,7 +60,7 @@ export default function VaultPage({ selectedSubject, subjects, notes, setNotes, 
                 subjectNotes.map((note) => (
                   <div key={note.id} className="rounded-xl border border-border bg-bg p-3 text-sm">
                     <div className="flex items-center justify-between gap-3">
-                      <div className="font-semibold text-green-100">{note.title}</div>
+                      <div className="font-semibold text-text">{note.title}</div>
                       <div className="text-xs text-muted">Module {note.module}</div>
                     </div>
                     <div className="mt-2 text-xs text-muted">{new Date(note.createdAt).toLocaleString()}</div>
@@ -76,7 +80,7 @@ export default function VaultPage({ selectedSubject, subjects, notes, setNotes, 
                     type="button"
                     key={resource.id}
                     onClick={() => window.open(resource.link, '_blank')}
-                    className="flex w-full items-center justify-between rounded-xl border border-border bg-bg p-3 text-left text-sm text-green-100 hover:bg-surface"
+                    className="flex w-full items-center justify-between rounded-xl border border-border bg-bg p-3 text-left text-sm text-text hover:bg-surface"
                   >
                     <span>{resource.title}</span>
                     <span className="text-xs uppercase tracking-[0.18em] text-muted">{resource.type}</span>
@@ -89,7 +93,7 @@ export default function VaultPage({ selectedSubject, subjects, notes, setNotes, 
           </div>
         </div>
         <div className="space-y-4">
-          <FileUploader subjectCode={selectedSubject} files={subjectFiles} onUpload={handleUpload} />
+          <FileUploader subjectCode={selectedSubject} files={subjectFiles} onUpload={handleUpload} onDelete={handleDeleteFile} />
           <div className="rounded-xl border border-border bg-deep p-4">
             <div className="text-sm uppercase tracking-[0.18em] text-muted">Module tracker</div>
             <div className="mt-4 space-y-2">

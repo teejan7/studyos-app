@@ -8,6 +8,7 @@ import { EXAMS } from './data/exams';
 import { Note, Question, FlashCard, Reminder, SubjectProgress, FileRecord, Resource } from './types';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useNotifications } from './hooks/useNotifications';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 const tabs = [
   { id: 'dashboard', label: 'Dashboard', icon: Cpu },
@@ -52,47 +53,48 @@ function App() {
 
   const handleSelectSubject = (subjectCode: string) => {
     setSelectedSubject(subjectCode);
-    setActiveTab('resources');
   };
 
   return (
-    <div className="min-h-screen bg-bg text-green-100">
-      <div className="mx-auto max-w-screen-2xl px-4 py-4">
-        <TopBar semester="S6 CSE 2019 Scheme" />
-        <div className="mt-4 grid min-h-[calc(100vh-120px)] grid-cols-1 gap-4 lg:grid-cols-[200px_1fr]">
-          <Sidebar
-            tabs={tabs}
-            activeTab={activeTab}
-            onSelectTab={setActiveTab}
-            subjects={subjects}
-            selectedSubject={selectedSubject}
-            onSelectSubject={handleSelectSubject}
-          />
-          <MainPanel
-            activeTab={activeTab}
-            selectedSubject={selectedSubject}
-            setSelectedSubject={setSelectedSubject}
-            exams={EXAMS}
-            notes={notes}
-            setNotes={setNotes}
-            questions={questions}
-            setQuestions={setQuestions}
-            flashcards={flashcards}
-            setFlashcards={setFlashcards}
-            reminders={reminders}
-            setReminders={setReminders}
-            progress={progress}
-            setProgress={setProgress}
-            files={files}
-            setFiles={setFiles}
-            resources={resources}
-            setResources={setResources}
-            subjects={subjects}
-          />
+    <ThemeProvider>
+      <div className="min-h-screen bg-bg text-text">
+        <div className="mx-auto max-w-screen-2xl px-4 py-4">
+          <TopBar semester="S6 CSE 2019 Scheme" />
+          <div className="mt-4 grid min-h-[calc(100vh-120px)] grid-cols-1 gap-4 lg:grid-cols-[200px_1fr]">
+            <Sidebar
+              tabs={tabs}
+              activeTab={activeTab}
+              onSelectTab={setActiveTab}
+              subjects={subjects}
+              selectedSubject={selectedSubject}
+              onSelectSubject={handleSelectSubject}
+            />
+            <MainPanel
+              activeTab={activeTab}
+              selectedSubject={selectedSubject}
+              setSelectedSubject={setSelectedSubject}
+              exams={EXAMS}
+              notes={notes}
+              setNotes={setNotes}
+              questions={questions}
+              setQuestions={setQuestions}
+              flashcards={flashcards}
+              setFlashcards={setFlashcards}
+              reminders={reminders}
+              setReminders={setReminders}
+              progress={progress}
+              setProgress={setProgress}
+              files={files}
+              setFiles={setFiles}
+              resources={resources}
+              setResources={setResources}
+              subjects={subjects}
+            />
+          </div>
         </div>
+        <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} />
       </div>
-      <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} />
-    </div>
+    </ThemeProvider>
   );
 }
 

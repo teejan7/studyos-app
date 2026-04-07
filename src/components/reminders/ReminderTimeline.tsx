@@ -19,10 +19,10 @@ export default function ReminderTimeline({ reminders, onToggleDone }: ReminderTi
               <div key={reminder.id} className={`rounded-xl border border-border p-3 ${dueToday ? 'bg-warn/10' : 'bg-bg'}`}>
                 <div className="flex items-center justify-between gap-3 text-sm">
                   <div>
-                    <div className={`font-semibold ${reminder.done ? 'line-through text-muted' : 'text-green-100'}`}>{reminder.title}</div>
+                    <div className={`font-semibold ${reminder.done ? 'line-through text-muted' : 'text-text'}`}>{reminder.title}</div>
                     <div className="text-xs text-muted">{new Date(reminder.datetime).toLocaleString()}</div>
                   </div>
-                  <button onClick={() => onToggleDone(reminder.id)} className="rounded-lg border border-border bg-surface px-3 py-1 text-xs text-green-100 hover:bg-surface/80">
+                  <button onClick={() => onToggleDone(reminder.id)} className="rounded-lg border border-border bg-surface px-3 py-1 text-xs text-text hover:bg-surface/80">
                     {reminder.done ? 'Undo' : 'Done'}
                   </button>
                 </div>
