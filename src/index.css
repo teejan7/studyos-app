@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body, #root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #0a0f0a;
+  color: #adebad;
+}
+
+button, input, textarea, select {
+  font: inherit;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.perspective {
+  perspective: 1000px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1a3a1a;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060d06;
+}
