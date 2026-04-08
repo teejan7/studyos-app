@@ -1,10 +1,18 @@
 import { Question } from '../../types';
-import { Star, CalendarCheck } from 'lucide-react';
+import { Star } from 'lucide-react';
 
 interface QuestionCardProps {
   question: Question;
   onToggleStar: (id: string) => void;
 }
+
+const typeLabelMap = {
+  '2mark': '3 mark',
+  partA: '4 mark',
+  '5mark': '7 mark',
+  partB: '10 mark',
+  '10mark': '14 mark'
+} as const;
 
 export default function QuestionCard({ question, onToggleStar }: QuestionCardProps) {
   return (
@@ -13,7 +21,7 @@ export default function QuestionCard({ question, onToggleStar }: QuestionCardPro
         <div>
           <div className="text-text font-semibold">{question.text}</div>
           <div className="mt-2 text-xs text-muted">
-            {question.subjectCode} · Module {question.module} · {question.type}
+            {question.subjectCode} - Module {question.module} - {typeLabelMap[question.type]}
           </div>
           {question.year && <div className="mt-1 text-xs text-muted">Year: {question.year}</div>}
         </div>

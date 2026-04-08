@@ -48,11 +48,11 @@ export default function QuestionForm({ subjectCode, subjects, onCreate }: Questi
           ))}
         </select>
         <select value={type} onChange={(event) => setType(event.target.value as any)} className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
-          <option value="2mark">2-mark</option>
-          <option value="5mark">5-mark</option>
-          <option value="10mark">10-mark</option>
-          <option value="partA">Part A</option>
-          <option value="partB">Part B</option>
+          <option value="2mark">3 mark</option>
+          <option value="partA">4 mark</option>
+          <option value="5mark">7 mark</option>
+          <option value="partB">10 mark</option>
+          <option value="10mark">14 mark</option>
         </select>
         <input
           type="number"

@@ -23,11 +23,11 @@ export default function QuestionFilter({ subjects, filters, onChange }: Question
       </select>
       <select value={filters.type} onChange={(event) => onChange({ type: event.target.value })} className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
         <option value="">All types</option>
-        <option value="2mark">2-mark</option>
-        <option value="5mark">5-mark</option>
-        <option value="10mark">10-mark</option>
-        <option value="partA">Part A</option>
-        <option value="partB">Part B</option>
+        <option value="2mark">3 mark</option>
+        <option value="partA">4 mark</option>
+        <option value="5mark">7 mark</option>
+        <option value="partB">10 mark</option>
+        <option value="10mark">14 mark</option>
       </select>
       <label className="inline-flex items-center rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
         <input type="checkbox" checked={filters.starredOnly} onChange={(event) => onChange({ starredOnly: event.target.checked })} className="mr-2 h-4 w-4 rounded border-border bg-bg text-accent" />
