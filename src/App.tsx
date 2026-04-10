@@ -1,14 +1,16 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { BookOpen, ClipboardList, Sparkles, Bell, ChartBar, Cpu, Layers } from 'lucide-react';
 import TopBar from './components/layout/TopBar';
 import Sidebar from './components/layout/Sidebar';
 import MainPanel from './components/layout/MainPanel';
 import { EXAMS } from './data/exams';
-import { Note, Question, FlashCard, Reminder, SubjectProgress, FileRecord, Resource } from './types';
+import { DEFAULT_TOPICS } from './data/topics';
+import { Note, Question, FlashCard, Reminder, FileRecord, Resource, TopicProgress } from './types';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useNotifications } from './hooks/useNotifications';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { mergeTopics, sanitizeTopicProgress } from './utils/topics';
 
 const tabs = [
   { id: 'dashboard', label: 'Dashboard', icon: Cpu },
@@ -19,18 +21,12 @@ const tabs = [
 
 const SUBJECTS = EXAMS.map((exam) => ({ code: exam.code, name: exam.name, credit: exam.credit }));
 
-const emptyProgress: SubjectProgress[] = SUBJECTS.map((subject) => ({
-  subjectCode: subject.code,
-  percentage: 0,
-  modulesCompleted: [false, false, false, false, false]
-}));
-
 const initialData = {
   notes: [] as Note[],
   questions: [] as Question[],
   flashcards: [] as FlashCard[],
   reminders: [] as Reminder[],
-  progress: emptyProgress,
+  progress: [] as TopicProgress[],
   files: [] as FileRecord[],
   resources: [] as Resource[]
 };
@@ -43,13 +39,29 @@ function App() {
   const [questions, setQuestions] = useLocalStorage<Question[]>('studyos_questions', initialData.questions);
   const [flashcards, setFlashcards] = useLocalStorage<FlashCard[]>('studyos_flashcards', initialData.flashcards);
   const [reminders, setReminders] = useLocalStorage<Reminder[]>('studyos_reminders', initialData.reminders);
-  const [progress, setProgress] = useLocalStorage<SubjectProgress[]>('studyos_progress', initialData.progress);
+  const [topics, setTopics] = useLocalStorage('studyos_topics', DEFAULT_TOPICS);
+  const [progress, setProgress] = useLocalStorage<TopicProgress[]>('studyos_progress', initialData.progress);
   const [files, setFiles] = useLocalStorage<FileRecord[]>('studyos_files', initialData.files);
   const [resources, setResources] = useLocalStorage<Resource[]>('studyos_resources', initialData.resources);
 
   useNotifications(reminders);
 
   const subjects = useMemo(() => SUBJECTS, []);
+  const mergedTopics = useMemo(() => mergeTopics(DEFAULT_TOPICS, topics), [topics]);
+
+  useEffect(() => {
+    setTopics((currentTopics) => {
+      const nextTopics = mergeTopics(DEFAULT_TOPICS, currentTopics);
+      return JSON.stringify(nextTopics) === JSON.stringify(currentTopics) ? currentTopics : nextTopics;
+    });
+  }, [setTopics]);
+
+  useEffect(() => {
+    setProgress((currentProgress) => {
+      const nextProgress = sanitizeTopicProgress(currentProgress);
+      return nextProgress.length === currentProgress.length ? currentProgress : nextProgress;
+    });
+  }, [setProgress]);
 
   const handleSelectSubject = (subjectCode: string) => {
     setSelectedSubject(subjectCode);
@@ -82,6 +94,8 @@ function App() {
               setFlashcards={setFlashcards}
               reminders={reminders}
               setReminders={setReminders}
+              topics={mergedTopics}
+              setTopics={setTopics}
               progress={progress}
               setProgress={setProgress}
               files={files}

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import { Question, SubjectProgress } from '../../types';
+import { Question } from '../../types';
 import QuestionFilter from './QuestionFilter';
 import QuestionForm from './QuestionForm';
 import QuestionCard from './QuestionCard';

@@ -2,8 +2,9 @@ import { useMemo } from 'react';
 import CountdownCard from './CountdownCard';
 import StatsRow from './StatsRow';
 import TerminalStatus from './TerminalStatus';
-import { Exam, FileRecord, FlashCard, Note, Question, Reminder, Resource, SubjectProgress } from '../../types';
+import { Exam, FileRecord, FlashCard, Note, Question, Reminder, Resource, SubjectTopics, TopicProgress } from '../../types';
 import { useExamCountdown } from '../../hooks/useExamCountdown';
+import { getSubjectTopicStats } from '../../utils/topics';
 
 interface DashboardProps {
   selectedSubject: string;
@@ -13,20 +14,24 @@ interface DashboardProps {
   questions: Question[];
   flashcards: FlashCard[];
   reminders: Reminder[];
-  progress: SubjectProgress[];
+  topics: SubjectTopics[];
+  progress: TopicProgress[];
   files: FileRecord[];
   resources: Resource[];
 }
 
-export default function Dashboard({ selectedSubject, exams, questions, progress, files, reminders, resources }: DashboardProps) {
+export default function Dashboard({ selectedSubject, subjects, exams, questions, topics, progress, files, reminders, resources }: DashboardProps) {
   const totalExams = exams.length;
   const countdown = useExamCountdown(exams);
   const nextExamDays = countdown.find((item) => item.days >= 0)?.days ?? null;
 
-  const coveredSubjects = progress.filter((item) => item.percentage >= 100).length;
+  const subjectTopicStats = subjects.map((subject) => ({
+    subjectCode: subject.code,
+    ...getSubjectTopicStats(topics, progress, subject.code)
+  }));
+  const coveredSubjects = subjectTopicStats.filter((item) => item.total > 0 && item.completed === item.total).length;
   const topQuestions = questions.filter((item) => item.starred && item.subjectCode === selectedSubject).slice(0, 3);
   const selectedFiles = files.filter((file) => file.subjectCode === selectedSubject).slice(0, 4);
-  const subjectProgress = progress.find((item) => item.subjectCode === selectedSubject)?.percentage ?? 0;
   const recentResources = useMemo(
     () =>
       [...resources]
@@ -85,15 +90,18 @@ export default function Dashboard({ selectedSubject, exams, questions, progress,
         <div className="rounded-xl border border-border bg-deep p-4">
           <div className="text-xs uppercase tracking-[0.18em] text-muted">Study progress</div>
           <div className="mt-4 space-y-3">
-            {progress.map((item) => (
+            {subjectTopicStats.map((item) => (
               <div key={item.subjectCode} className="space-y-2 rounded-xl border border-border bg-bg p-3">
                 <div className="flex items-center justify-between text-sm">
                   <span>{item.subjectCode}</span>
-                  <span className="font-semibold text-accent">{item.percentage}%</span>
+                  <span className="font-semibold text-accent">
+                    {item.completed}/{item.total} topics
+                  </span>
                 </div>
                 <div className="h-2 rounded-full bg-border">
                   <div className="h-full rounded-full bg-accent" style={{ width: `${item.percentage}%` }} />
                 </div>
+                <div className="text-xs text-muted">{item.percentage}% complete</div>
               </div>
             ))}
           </div>

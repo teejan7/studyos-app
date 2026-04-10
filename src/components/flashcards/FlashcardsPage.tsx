@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import { FlashCard as FlashCardType, SubjectProgress } from '../../types';
+import { FlashCard as FlashCardType } from '../../types';
 import FlashCard from './FlashCard';
 import StudyMode from './StudyMode';
 import { v4 as uuidv4 } from 'uuid';

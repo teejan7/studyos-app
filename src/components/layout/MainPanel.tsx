@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
-import { Exam, FileRecord, FlashCard, Note, Question, Reminder, Resource, SubjectProgress } from '../../types';
+import { Exam, FileRecord, FlashCard, Note, Question, Reminder, Resource, SubjectTopics, TopicProgress } from '../../types';
 import Dashboard from '../dashboard/Dashboard';
 import VaultPage from '../vault/VaultPage';
 import ResourceHub from '../resources/ResourceHub';
@@ -21,8 +21,10 @@ interface MainPanelProps {
   setFlashcards: Dispatch<SetStateAction<FlashCard[]>>;
   reminders: Reminder[];
   setReminders: Dispatch<SetStateAction<Reminder[]>>;
-  progress: SubjectProgress[];
-  setProgress: Dispatch<SetStateAction<SubjectProgress[]>>;
+  topics: SubjectTopics[];
+  setTopics: Dispatch<SetStateAction<SubjectTopics[]>>;
+  progress: TopicProgress[];
+  setProgress: Dispatch<SetStateAction<TopicProgress[]>>;
   files: FileRecord[];
   setFiles: Dispatch<SetStateAction<FileRecord[]>>;
   resources: Resource[];

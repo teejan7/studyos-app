@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import { Note, FileRecord, Resource, SubjectProgress } from '../../types';
+import { Note, FileRecord, Resource, SubjectTopics, TopicProgress } from '../../types';
 import NotesEditor from './NotesEditor';
 import FileUploader from './FileUploader';
-import ModuleAccordion from './ModuleAccordion';
+import ImportantTopics from './ImportantTopics';
 
 interface VaultPageProps {
   selectedSubject: string;
@@ -13,15 +13,16 @@ interface VaultPageProps {
   files: FileRecord[];
   setFiles: Dispatch<SetStateAction<FileRecord[]>>;
   resources: Resource[];
-  progress: SubjectProgress[];
-  setProgress: Dispatch<SetStateAction<SubjectProgress[]>>;
+  topics: SubjectTopics[];
+  setTopics: Dispatch<SetStateAction<SubjectTopics[]>>;
+  progress: TopicProgress[];
+  setProgress: Dispatch<SetStateAction<TopicProgress[]>>;
 }
 
-export default function VaultPage({ selectedSubject, subjects, notes, setNotes, files, setFiles, resources, progress, setProgress }: VaultPageProps) {
+export default function VaultPage({ selectedSubject, notes, setNotes, files, setFiles, resources, topics, setTopics, progress, setProgress }: VaultPageProps) {
   const subjectNotes = useMemo(() => notes.filter((note) => note.subjectCode === selectedSubject), [notes, selectedSubject]);
   const subjectFiles = useMemo(() => files.filter((file) => file.subjectCode === selectedSubject), [files, selectedSubject]);
   const subjectResources = useMemo(() => resources.filter((resource) => resource.subjectCode === selectedSubject), [resources, selectedSubject]);
-  const progressItem = progress.find((item) => item.subjectCode === selectedSubject);
 
   const handleSave = (note: Note) => {
     setNotes([note, ...notes]);
@@ -33,19 +34,6 @@ export default function VaultPage({ selectedSubject, subjects, notes, setNotes, 
 
   const handleDeleteFile = (fileId: string) => {
     setFiles(files.filter((file) => file.id !== fileId));
-  };
-
-  const handleToggleModule = (index: number) => {
-    if (!progressItem) return;
-    const update = progress.map((item) =>
-      item.subjectCode === selectedSubject
-        ? {
-            ...item,
-            modulesCompleted: item.modulesCompleted.map((value, idx) => (idx === index ? !value : value))
-          }
-        : item
-    );
-    setProgress(update);
   };
 
   return (
@@ -94,14 +82,7 @@ export default function VaultPage({ selectedSubject, subjects, notes, setNotes, 
         </div>
         <div className="space-y-4">
           <FileUploader subjectCode={selectedSubject} files={subjectFiles} onUpload={handleUpload} onDelete={handleDeleteFile} />
-          <div className="rounded-xl border border-border bg-deep p-4">
-            <div className="text-sm uppercase tracking-[0.18em] text-muted">Module tracker</div>
-            <div className="mt-4 space-y-2">
-              {progressItem?.modulesCompleted.map((item, index) => (
-                <ModuleAccordion key={index} moduleIndex={index} completed={item} onToggle={() => handleToggleModule(index)} />
-              ))}
-            </div>
-          </div>
+          <ImportantTopics selectedSubject={selectedSubject} topics={topics} setTopics={setTopics} progress={progress} setProgress={setProgress} />
         </div>
       </div>
     </div>

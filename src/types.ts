@@ -5,6 +5,20 @@ export interface Exam {
   credit: number;
 }
 
+export interface SubjectTopics {
+  subjectCode: string;
+  modules: {
+    [moduleName: string]: string[];
+  };
+}
+
+export interface TopicProgress {
+  subjectCode: string;
+  module: string;
+  topic: string;
+  completed: boolean;
+}
+
 export interface Note {
   id: string;
   subjectCode: string;
@@ -49,12 +63,6 @@ export interface Reminder {
   datetime: string;
   priority: 'high' | 'medium' | 'low';
   done: boolean;
-}
-
-export interface SubjectProgress {
-  subjectCode: string;
-  percentage: number;
-  modulesCompleted: boolean[];
 }
 
 export interface FileRecord {
