@@ -13,7 +13,7 @@ export default function CountdownCard({ exam }: CountdownCardProps) {
     <div className={`rounded-xl border-2 border-accent p-4 ${tone}`}>
       <div className="flex items-center justify-between gap-2 text-xs uppercase tracking-[0.18em] text-muted">
         <span>{exam.code}</span>
-        <span>Slot {exam.slot}</span>
+        <span>Credits: {exam.credit}</span>
       </div>
       <div className="mt-3 text-lg font-semibold">{exam.name}</div>
       <div className="mt-4 flex items-center justify-between gap-3 text-sm">

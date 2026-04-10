@@ -17,7 +17,7 @@ const tabs = [
   { id: 'questions', label: 'Question Bank', icon: ClipboardList }
 ];
 
-const SUBJECTS = EXAMS.map((exam) => ({ code: exam.code, name: exam.name }));
+const SUBJECTS = EXAMS.map((exam) => ({ code: exam.code, name: exam.name, credit: exam.credit }));
 
 const emptyProgress: SubjectProgress[] = SUBJECTS.map((subject) => ({
   subjectCode: subject.code,

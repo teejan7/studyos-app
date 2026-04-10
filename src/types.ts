@@ -2,7 +2,7 @@ export interface Exam {
   code: string;
   name: string;
   date: string;
-  slot: string;
+  credit: number;
 }
 
 export interface Note {

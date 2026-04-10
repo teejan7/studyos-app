@@ -5,7 +5,7 @@ interface SidebarProps {
   tabs: { id: string; label: string; icon: ComponentType<{ className?: string }> }[];
   activeTab: string;
   onSelectTab: (tab: string) => void;
-  subjects: { code: string; name: string }[];
+  subjects: { code: string; name: string; credit?: number }[];
   selectedSubject: string;
   onSelectSubject: (subject: string) => void;
 }
@@ -55,6 +55,9 @@ export default function Sidebar({ tabs, activeTab, onSelectTab, subjects, select
               }`}
             >
               <span>{subject.code}</span>
+              {typeof subject.credit === 'number' && (
+                <span className="rounded-full border border-border px-2 font-mono text-[10px] uppercase text-muted">{subject.credit} CR</span>
+              )}
             </button>
           ))}
         </div>
