@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
+import { Trash2 } from 'lucide-react';
 import type { SubjectTopics, TopicProgress } from '../../types';
 import { getCompletedTopicSet, getSubjectTopicStats, topicKey } from '../../utils/topics';
 
@@ -132,17 +133,23 @@ export default function ImportantTopics({ selectedSubject, topics, setTopics, pr
                         const completed = isCompleted(module, topic);
 
                         return (
-                          <div key={topic} className="flex items-start justify-between gap-2 rounded-lg border border-border bg-deep px-3 py-2 text-sm">
+                          <div key={topic} className="flex items-start gap-3 rounded-lg border border-border bg-deep px-3 py-2 text-sm">
                             <button
                               type="button"
                               onClick={() => toggleTopic(module, topic)}
-                              className={`flex flex-1 items-start gap-2 text-left ${completed ? 'text-accent' : 'text-text'}`}
+                              className={`flex min-w-0 flex-1 items-start gap-2 text-left leading-5 ${completed ? 'text-accent' : 'text-text'}`}
                             >
-                              <span className="font-mono text-xs">{completed ? '[✓]' : '[ ]'}</span>
-                              <span className={completed ? 'opacity-70' : ''}>{topic}</span>
+                              <span className="w-7 shrink-0 pt-0.5 font-mono text-xs leading-5">{completed ? '[✓]' : '[ ]'}</span>
+                              <span className={`min-w-0 break-words ${completed ? 'opacity-70' : ''}`}>{topic}</span>
                             </button>
-                            <button type="button" onClick={() => deleteTopic(module, topic)} className="text-xs text-muted hover:text-danger">
-                              Delete
+                            <button
+                              type="button"
+                              onClick={() => deleteTopic(module, topic)}
+                              className="shrink-0 rounded-lg border border-border bg-bg p-1 text-muted hover:bg-surface hover:text-danger"
+                              title="Delete topic"
+                              aria-label={`Delete ${topic}`}
+                            >
+                              <Trash2 className="h-4 w-4" />
                             </button>
                           </div>
                         );
