@@ -35,9 +35,10 @@ export default function Dashboard({ selectedSubject, subjects, exams, questions,
   const recentResources = useMemo(
     () =>
       [...resources]
+        .filter((resource) => resource.subjectCode === selectedSubject)
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         .slice(0, 5),
-    [resources]
+    [resources, selectedSubject]
   );
 
   const statusMessage = nextExamDays !== null ? `Only ${nextExamDays} days until the next exam — keep the focus strong.` : 'All exams completed. Review and consolidate notes.';

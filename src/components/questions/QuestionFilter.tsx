@@ -10,7 +10,7 @@ export default function QuestionFilter({ subjects, filters, onChange }: Question
   return (
     <div className="grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
       <select value={filters.subject} onChange={(event) => onChange({ subject: event.target.value })} className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
-        <option value="">All subjects</option>
+        <option value="">Select subject</option>
         {subjects.map((subject) => (
           <option key={subject.code} value={subject.code}>{subject.name}</option>
         ))}

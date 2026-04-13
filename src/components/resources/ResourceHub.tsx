@@ -21,33 +21,34 @@ export default function ResourceHub({ selectedSubject, subjects, resources, setR
   const [addingType, setAddingType] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
+  const selectedSubjectCode = subjects.find((subject) => subject.code === selectedSubject)?.code ?? selectedSubject;
 
   const subjectResources = useMemo(
-    () => resources.filter((resource) => resource.subjectCode === selectedSubject),
-    [resources, selectedSubject]
+    () => resources.filter((resource) => resource.subjectCode === selectedSubjectCode),
+    [resources, selectedSubjectCode]
   );
 
   const handleAdd = (type: string) => {
     if (!title.trim()) return;
     const newResource: Resource = {
       id: typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
-      subjectCode: selectedSubject,
+      subjectCode: selectedSubjectCode,
       type: type as Resource['type'],
       title: title.trim(),
       link: link.trim(),
       createdAt: new Date().toISOString()
     };
-    setResources([newResource, ...resources]);
+    setResources((currentResources) => [newResource, ...currentResources]);
     setTitle('');
     setLink('');
     setAddingType(null);
   };
 
   const handleDelete = (id: string) => {
-    setResources(resources.filter((resource) => resource.id !== id));
+    setResources((currentResources) => currentResources.filter((resource) => resource.id !== id));
   };
 
-  const selectedSubjectName = subjects.find(s => s.code === selectedSubject)?.name || selectedSubject;
+  const selectedSubjectName = subjects.find((subject) => subject.code === selectedSubjectCode)?.name || selectedSubjectCode;
 
   return (
     <div className="space-y-6">

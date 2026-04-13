@@ -66,6 +66,13 @@ function App() {
     });
   }, [setProgress]);
 
+  useEffect(() => {
+    setResources((currentResources) => {
+      const nextResources = hydrateResources(currentResources, initialData.resources);
+      return JSON.stringify(nextResources) === JSON.stringify(currentResources) ? currentResources : nextResources;
+    });
+  }, [setResources]);
+
   const handleSelectSubject = (subjectCode: string) => {
     setSelectedSubject(subjectCode);
   };

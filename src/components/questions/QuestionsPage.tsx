@@ -16,14 +16,23 @@ export default function QuestionsPage({ selectedSubject, subjects, questions, se
   const [filters, setFilters] = useState({ subject: '', module: '', type: '', starredOnly: false });
 
   const filteredQuestions = useMemo(() => {
+    if (!filters.subject) {
+      return [];
+    }
+
     return questions.filter((question) => {
-      if (filters.subject && question.subjectCode !== filters.subject) return false;
+      if (question.subjectCode !== filters.subject) return false;
       if (filters.module && question.module !== Number(filters.module)) return false;
       if (filters.type && question.type !== filters.type) return false;
       if (filters.starredOnly && !question.starred) return false;
       return true;
     });
   }, [filters, questions]);
+
+  const previousYearQuestions = useMemo(
+    () => questions.filter((question) => filters.subject && question.subjectCode === filters.subject && question.year).slice(0, 3),
+    [filters.subject, questions]
+  );
 
   const handleCreate = (question: Question) => {
     setQuestions([question, ...questions]);
@@ -45,10 +54,13 @@ export default function QuestionsPage({ selectedSubject, subjects, questions, se
           <div className="mt-6 rounded-xl border border-border bg-bg p-4 text-sm">
             <div className="text-xs uppercase tracking-[0.18em] text-muted">Previous year questions</div>
             <div className="mt-3 space-y-2">
-              {questions.filter((q) => q.year).slice(0, 3).map((q) => (
-                <div key={q.id} className="rounded-lg border border-border bg-surface p-3">{q.year} · {q.text}</div>
+              {previousYearQuestions.map((question) => (
+                <div key={question.id} className="rounded-lg border border-border bg-surface p-3">{question.year} · {question.text}</div>
               ))}
-              {!questions.some((q) => q.year) && <div className="text-sm text-muted">Add previous year items to see them here.</div>}
+              {!filters.subject && <div className="text-sm text-muted">Select a subject to view previous year questions.</div>}
+              {Boolean(filters.subject) && !previousYearQuestions.length && (
+                <div className="text-sm text-muted">Add previous year items to see them here.</div>
+              )}
             </div>
           </div>
         </div>
