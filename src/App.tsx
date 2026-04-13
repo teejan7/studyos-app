@@ -11,6 +11,7 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 import { useNotifications } from './hooks/useNotifications';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { mergeTopics, sanitizeTopicProgress } from './utils/topics';
+import { hydrateResources } from './utils/resources';
 
 const tabs = [
   { id: 'dashboard', label: 'Dashboard', icon: Cpu },
@@ -42,7 +43,9 @@ function App() {
   const [topics, setTopics] = useLocalStorage('studyos_topics', DEFAULT_TOPICS);
   const [progress, setProgress] = useLocalStorage<TopicProgress[]>('studyos_progress', initialData.progress);
   const [files, setFiles] = useLocalStorage<FileRecord[]>('studyos_files', initialData.files);
-  const [resources, setResources] = useLocalStorage<Resource[]>('studyos_resources', initialData.resources);
+  const [resources, setResources] = useLocalStorage<Resource[]>('studyos_resources', initialData.resources, {
+    hydrate: hydrateResources
+  });
 
   useNotifications(reminders);
 
