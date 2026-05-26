@@ -1,13 +1,14 @@
 import { useMemo } from 'react';
 import { differenceInCalendarDays, parseISO } from 'date-fns';
-import type { Exam } from '../types';
+import type { Subject } from '../types';
 
-export function useExamCountdown(exams: Exam[]) {
+export function useExamCountdown(subjects: Subject[]) {
   return useMemo(
     () =>
-      exams
-        .map((exam) => ({ exam, days: differenceInCalendarDays(parseISO(exam.date), new Date()) }))
+      subjects
+        .filter((subject) => subject.examDate)
+        .map((subject) => ({ subject, days: differenceInCalendarDays(parseISO(subject.examDate as string), new Date()) }))
         .sort((a, b) => a.days - b.days),
-    [exams]
+    [subjects]
   );
 }

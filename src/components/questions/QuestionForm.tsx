@@ -5,23 +5,24 @@ import { v4 as uuidv4 } from 'uuid';
 interface QuestionFormProps {
   subjectCode: string;
   subjects: { code: string; name: string }[];
+  modules: string[];
   onCreate: (question: Question) => void;
 }
 
-export default function QuestionForm({ subjectCode, subjects, onCreate }: QuestionFormProps) {
+export default function QuestionForm({ subjectCode, modules, onCreate }: QuestionFormProps) {
   const [text, setText] = useState('');
-  const [module, setModule] = useState(1);
-  const [type, setType] = useState<'2mark' | '5mark' | '10mark' | 'partA' | 'partB'>('2mark');
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [module, setModule] = useState('');
+  const [type, setType] = useState('Short answer');
+  const [year, setYear] = useState(String(new Date().getFullYear()));
 
   const handleSubmit = () => {
     if (!text.trim()) return;
     onCreate({
       id: uuidv4(),
       subjectCode,
-      module,
-      text: text.trim(),
-      type,
+      module: module || modules[0] || 'General',
+      question: text.trim(),
+      markType: type,
       starred: false,
       year
     });
@@ -42,25 +43,24 @@ export default function QuestionForm({ subjectCode, subjects, onCreate }: Questi
         <select value={subjectCode} disabled className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
           <option>{subjectCode}</option>
         </select>
-        <select value={module} onChange={(event) => setModule(Number(event.target.value))} className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
-          {[1, 2, 3, 4, 5].map((num) => (
-            <option key={num} value={num}>Module {num}</option>
+        <select value={module} onChange={(event) => setModule(event.target.value)} className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
+          <option value="">General</option>
+          {modules.map((moduleName) => (
+            <option key={moduleName} value={moduleName}>{moduleName}</option>
           ))}
         </select>
-        <select value={type} onChange={(event) => setType(event.target.value as any)} className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
-          <option value="2mark">3 mark</option>
-          <option value="partA">4 mark</option>
-          <option value="5mark">7 mark</option>
-          <option value="partB">10 mark</option>
-          <option value="10mark">14 mark</option>
+        <select value={type} onChange={(event) => setType(event.target.value)} className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text">
+          <option value="Short answer">Short answer</option>
+          <option value="Long answer">Long answer</option>
+          <option value="Essay">Essay</option>
+          <option value="Problem">Problem</option>
+          <option value="Custom">Custom</option>
         </select>
         <input
-          type="number"
+          type="text"
           className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text"
           value={year}
-          min={2000}
-          max={2030}
-          onChange={(event) => setYear(Number(event.target.value))}
+          onChange={(event) => setYear(event.target.value)}
           placeholder="Year"
         />
       </div>

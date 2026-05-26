@@ -6,22 +6,14 @@ interface QuestionCardProps {
   onToggleStar: (id: string) => void;
 }
 
-const typeLabelMap = {
-  '2mark': '3 mark',
-  partA: '4 mark',
-  '5mark': '7 mark',
-  partB: '10 mark',
-  '10mark': '14 mark'
-} as const;
-
 export default function QuestionCard({ question, onToggleStar }: QuestionCardProps) {
   return (
     <div className="rounded-xl border border-border bg-bg p-4 text-sm">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-text font-semibold">{question.text}</div>
+          <div className="text-text font-semibold">{question.question}</div>
           <div className="mt-2 text-xs text-muted">
-            {question.subjectCode} - Module {question.module} - {typeLabelMap[question.type]}
+            {question.subjectCode} - {question.module} - {question.markType}
           </div>
           {question.year && <div className="mt-1 text-xs text-muted">Year: {question.year}</div>}
         </div>

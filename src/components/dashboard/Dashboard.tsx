@@ -2,14 +2,13 @@ import { useMemo } from 'react';
 import CountdownCard from './CountdownCard';
 import StatsRow from './StatsRow';
 import TerminalStatus from './TerminalStatus';
-import { Exam, FileRecord, FlashCard, Note, Question, Reminder, Resource, SubjectTopics, TopicProgress } from '../../types';
+import { FileRecord, FlashCard, Note, Question, Reminder, Resource, Subject, SubjectTopics, TopicProgress } from '../../types';
 import { useExamCountdown } from '../../hooks/useExamCountdown';
 import { getSubjectTopicStats } from '../../utils/topics';
 
 interface DashboardProps {
   selectedSubject: string;
-  subjects: { code: string; name: string }[];
-  exams: Exam[];
+  subjects: Subject[];
   notes: Note[];
   questions: Question[];
   flashcards: FlashCard[];
@@ -20,9 +19,9 @@ interface DashboardProps {
   resources: Resource[];
 }
 
-export default function Dashboard({ selectedSubject, subjects, exams, questions, topics, progress, files, reminders, resources }: DashboardProps) {
-  const totalExams = exams.length;
-  const countdown = useExamCountdown(exams);
+export default function Dashboard({ selectedSubject, subjects, questions, topics, progress, files, reminders, resources }: DashboardProps) {
+  const totalExams = subjects.filter((subject) => subject.examDate).length;
+  const countdown = useExamCountdown(subjects);
   const nextExamDays = countdown.find((item) => item.days >= 0)?.days ?? null;
 
   const subjectTopicStats = subjects.map((subject) => ({
@@ -48,8 +47,8 @@ export default function Dashboard({ selectedSubject, subjects, exams, questions,
       <div className="grid gap-4 xl:grid-cols-[minmax(320px,0.6fr)_minmax(280px,0.4fr)]">
         <section className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {exams.map((exam) => (
-              <CountdownCard key={exam.code} exam={exam} />
+            {subjects.map((subject) => (
+              <CountdownCard key={subject.code} subject={subject} />
             ))}
           </div>
           <StatsRow totalExams={totalExams} nextExamDays={nextExamDays} coveredSubjects={coveredSubjects} filesStored={files.length} />
@@ -63,8 +62,8 @@ export default function Dashboard({ selectedSubject, subjects, exams, questions,
                 <ul className="mt-3 space-y-2">
                   {topQuestions.map((item) => (
                     <li key={item.id} className="rounded-xl border border-border bg-bg p-3 text-sm">
-                      <div className="font-medium text-text">{item.text}</div>
-                      <div className="text-xs text-muted">{item.type} question</div>
+                      <div className="font-medium text-text">{item.question}</div>
+                      <div className="text-xs text-muted">{item.markType} question</div>
                     </li>
                   ))}
                 </ul>

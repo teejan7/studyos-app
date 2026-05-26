@@ -1,8 +1,14 @@
-export interface Exam {
+export interface SemesterConfig {
+  semesterName: string;
+  branch: string;
+  scheme: string;
+}
+
+export interface Subject {
   code: string;
   name: string;
-  date: string;
-  credit: number;
+  credits: number;
+  examDate?: string;
 }
 
 export interface SubjectTopics {
@@ -22,7 +28,7 @@ export interface TopicProgress {
 export interface Note {
   id: string;
   subjectCode: string;
-  module: number;
+  module: string;
   title: string;
   content: string;
   createdAt: string;
@@ -31,7 +37,7 @@ export interface Note {
 export interface Resource {
   id: string;
   subjectCode: string;
-  type: 'youtube' | 'notes' | 'question' | 'important';
+  type: 'youtube' | 'notes' | 'papers' | 'custom';
   title: string;
   link: string;
   createdAt: string;
@@ -40,11 +46,11 @@ export interface Resource {
 export interface Question {
   id: string;
   subjectCode: string;
-  module: number;
-  text: string;
-  type: '2mark' | '5mark' | '10mark' | 'partA' | 'partB';
+  module: string;
+  question: string;
+  markType: string;
   starred: boolean;
-  year?: number;
+  year?: string;
 }
 
 export interface FlashCard {

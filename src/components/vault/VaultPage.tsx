@@ -23,6 +23,7 @@ export default function VaultPage({ selectedSubject, notes, setNotes, files, set
   const subjectNotes = useMemo(() => notes.filter((note) => note.subjectCode === selectedSubject), [notes, selectedSubject]);
   const subjectFiles = useMemo(() => files.filter((file) => file.subjectCode === selectedSubject), [files, selectedSubject]);
   const subjectResources = useMemo(() => resources.filter((resource) => resource.subjectCode === selectedSubject), [resources, selectedSubject]);
+  const modules = Object.keys(topics.find((item) => item.subjectCode === selectedSubject)?.modules ?? {});
 
   const handleSave = (note: Note) => {
     setNotes([note, ...notes]);
@@ -40,7 +41,7 @@ export default function VaultPage({ selectedSubject, notes, setNotes, files, set
     <div className="space-y-6">
       <div className="grid gap-4 lg:grid-cols-[0.65fr_0.35fr]">
         <div className="space-y-4">
-          <NotesEditor subjectCode={selectedSubject} notes={notes} onSave={handleSave} />
+          <NotesEditor subjectCode={selectedSubject} notes={notes} modules={modules} onSave={handleSave} />
           <div className="rounded-xl border border-border bg-deep p-4">
             <div className="text-sm uppercase tracking-[0.18em] text-muted">Notes archive</div>
             <div className="mt-4 space-y-3">
@@ -49,7 +50,7 @@ export default function VaultPage({ selectedSubject, notes, setNotes, files, set
                   <div key={note.id} className="rounded-xl border border-border bg-bg p-3 text-sm">
                     <div className="flex items-center justify-between gap-3">
                       <div className="font-semibold text-text">{note.title}</div>
-                      <div className="text-xs text-muted">Module {note.module}</div>
+                      <div className="text-xs text-muted">{note.module}</div>
                     </div>
                     <div className="mt-2 text-xs text-muted">{new Date(note.createdAt).toLocaleString()}</div>
                   </div>

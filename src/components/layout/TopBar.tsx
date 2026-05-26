@@ -1,12 +1,13 @@
-import { Clock6, Cpu, Sun, Moon } from 'lucide-react';
+import { Clock6, Cpu, Sun, Moon, X } from 'lucide-react';
 import { format } from 'date-fns';
 import { useTheme } from '../../contexts/ThemeContext';
 
 interface TopBarProps {
-  semester: string;
+  semester?: string;
+  onHideSemester?: () => void;
 }
 
-export default function TopBar({ semester }: TopBarProps) {
+export default function TopBar({ semester, onHideSemester }: TopBarProps) {
   const { theme, toggleTheme } = useTheme();
   return (
     <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-4 shadow-sm">
@@ -26,9 +27,16 @@ export default function TopBar({ semester }: TopBarProps) {
           >
             {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
-          <div className="rounded-lg border border-border bg-deep px-4 py-2 text-sm text-muted">
-            {semester}
-          </div>
+          {semester && (
+            <div className="flex items-center gap-2 rounded-lg border border-border bg-deep px-3 py-2 text-sm text-muted">
+              <span>{semester}</span>
+              {onHideSemester && (
+                <button type="button" onClick={onHideSemester} className="rounded p-0.5 text-muted hover:text-danger" title="Hide semester label">
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-border bg-deep px-4 py-3 text-sm text-text">

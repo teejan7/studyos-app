@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
-import { Exam, FileRecord, FlashCard, Note, Question, Reminder, Resource, SubjectTopics, TopicProgress } from '../../types';
+import { FileRecord, FlashCard, Note, Question, Reminder, Resource, Subject, SubjectTopics, TopicProgress } from '../../types';
 import Dashboard from '../dashboard/Dashboard';
 import VaultPage from '../vault/VaultPage';
 import ResourceHub from '../resources/ResourceHub';
@@ -12,7 +12,6 @@ interface MainPanelProps {
   activeTab: string;
   selectedSubject: string;
   setSelectedSubject: (subject: string) => void;
-  exams: Exam[];
   notes: Note[];
   setNotes: Dispatch<SetStateAction<Note[]>>;
   questions: Question[];
@@ -29,7 +28,7 @@ interface MainPanelProps {
   setFiles: Dispatch<SetStateAction<FileRecord[]>>;
   resources: Resource[];
   setResources: Dispatch<SetStateAction<Resource[]>>;
-  subjects: { code: string; name: string }[];
+  subjects: Subject[];
 }
 
 export default function MainPanel(props: MainPanelProps) {

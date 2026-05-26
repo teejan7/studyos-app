@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { Trash2 } from 'lucide-react';
+import { Plus, Pencil, Save, X } from 'lucide-react';
 import type { SubjectTopics, TopicProgress } from '../../types';
 import { getCompletedTopicSet, getSubjectTopicStats, topicKey } from '../../utils/topics';
 
@@ -15,6 +16,9 @@ interface ImportantTopicsProps {
 export default function ImportantTopics({ selectedSubject, topics, setTopics, progress, setProgress }: ImportantTopicsProps) {
   const [openModules, setOpenModules] = useState<Record<string, boolean>>({});
   const [newTopics, setNewTopics] = useState<Record<string, string>>({});
+  const [newModuleName, setNewModuleName] = useState('');
+  const [editingModule, setEditingModule] = useState<string | null>(null);
+  const [moduleDraftName, setModuleDraftName] = useState('');
   const [showIncompleteOnly, setShowIncompleteOnly] = useState(false);
 
   const subjectTopics = topics.find((item) => item.subjectCode === selectedSubject);
@@ -65,6 +69,70 @@ export default function ImportantTopics({ selectedSubject, topics, setTopics, pr
     setNewTopics((current) => ({ ...current, [module]: '' }));
   };
 
+  const addModule = () => {
+    const moduleName = newModuleName.trim();
+    if (!moduleName) return;
+
+    setTopics((current) => {
+      const existingSubject = current.find((subject) => subject.subjectCode === selectedSubject);
+      if (!existingSubject) {
+        return [...current, { subjectCode: selectedSubject, modules: { [moduleName]: [] } }];
+      }
+
+      return current.map((subject) =>
+        subject.subjectCode === selectedSubject
+          ? {
+              ...subject,
+              modules: {
+                ...subject.modules,
+                [moduleName]: subject.modules[moduleName] ?? []
+              }
+            }
+          : subject
+      );
+    });
+    setNewModuleName('');
+  };
+
+  const startRenameModule = (module: string) => {
+    setEditingModule(module);
+    setModuleDraftName(module);
+  };
+
+  const renameModule = (module: string) => {
+    const nextName = moduleDraftName.trim();
+    if (!nextName || nextName === module) {
+      setEditingModule(null);
+      return;
+    }
+
+    setTopics((current) =>
+      current.map((subject) => {
+        if (subject.subjectCode !== selectedSubject) return subject;
+        const nextModules = { ...subject.modules };
+        nextModules[nextName] = nextModules[module] ?? [];
+        delete nextModules[module];
+        return { ...subject, modules: nextModules };
+      })
+    );
+    setProgress((current) =>
+      current.map((item) => (item.subjectCode === selectedSubject && item.module === module ? { ...item, module: nextName } : item))
+    );
+    setEditingModule(null);
+  };
+
+  const deleteModule = (module: string) => {
+    setTopics((current) =>
+      current.map((subject) => {
+        if (subject.subjectCode !== selectedSubject) return subject;
+        const nextModules = { ...subject.modules };
+        delete nextModules[module];
+        return { ...subject, modules: nextModules };
+      })
+    );
+    setProgress((current) => current.filter((item) => !(item.subjectCode === selectedSubject && item.module === module)));
+  };
+
   const deleteTopic = (module: string, topic: string) => {
     setTopics((current) =>
       current.map((subject) =>
@@ -110,6 +178,19 @@ export default function ImportantTopics({ selectedSubject, topics, setTopics, pr
         Show only incomplete topics
       </label>
 
+      <div className="mt-4 flex gap-2">
+        <input
+          type="text"
+          value={newModuleName}
+          onChange={(event) => setNewModuleName(event.target.value)}
+          className="min-w-0 flex-1 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text outline-none focus:border-accent"
+          placeholder="Add module"
+        />
+        <button type="button" onClick={addModule} className="rounded-lg border border-accent bg-accent/10 p-2 text-accent hover:bg-accent/20" title="Add module">
+          <Plus className="h-4 w-4" />
+        </button>
+      </div>
+
       <div className="mt-4 space-y-3">
         {moduleEntries.length ? (
           moduleEntries.map(([module, moduleTopics]) => {
@@ -119,12 +200,41 @@ export default function ImportantTopics({ selectedSubject, topics, setTopics, pr
 
             return (
               <div key={module} className="rounded-xl border border-border bg-bg p-3">
-                <button type="button" onClick={() => toggleModule(module)} className="flex w-full items-center justify-between gap-3 text-left text-sm">
-                  <span className="font-semibold text-text">{module}</span>
+                <div className="flex items-center justify-between gap-2">
+                  {editingModule === module ? (
+                    <input
+                      value={moduleDraftName}
+                      onChange={(event) => setModuleDraftName(event.target.value)}
+                      className="min-w-0 flex-1 rounded-lg border border-border bg-surface px-2 py-1 text-sm text-text"
+                    />
+                  ) : (
+                    <button type="button" onClick={() => toggleModule(module)} className="min-w-0 flex-1 text-left text-sm">
+                      <span className="font-semibold text-text">{module}</span>
+                    </button>
+                  )}
                   <span className="font-mono text-xs text-muted">
-                    {completedCount}/{moduleTopics.length} completed {open ? '-' : '+'}
+                    {completedCount}/{moduleTopics.length} {open ? '-' : '+'}
                   </span>
-                </button>
+                  {editingModule === module ? (
+                    <>
+                      <button type="button" onClick={() => renameModule(module)} className="rounded-lg border border-border bg-deep p-1 text-muted hover:text-accent" title="Save module">
+                        <Save className="h-4 w-4" />
+                      </button>
+                      <button type="button" onClick={() => setEditingModule(null)} className="rounded-lg border border-border bg-deep p-1 text-muted" title="Cancel">
+                        <X className="h-4 w-4" />
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button type="button" onClick={() => startRenameModule(module)} className="rounded-lg border border-border bg-deep p-1 text-muted hover:text-accent" title="Rename module">
+                        <Pencil className="h-4 w-4" />
+                      </button>
+                      <button type="button" onClick={() => deleteModule(module)} className="rounded-lg border border-border bg-deep p-1 text-muted hover:text-danger" title="Delete module">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </>
+                  )}
+                </div>
 
                 {open && (
                   <div className="mt-3 space-y-2">

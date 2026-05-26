@@ -14,7 +14,8 @@ interface ResourceHubProps {
 const resourceSections = [
   { id: 'youtube' as const, label: 'YouTube Links', placeholder: 'Video title' },
   { id: 'notes' as const, label: 'Notes (Drive Links)', placeholder: 'Note title' },
-  { id: 'question' as const, label: 'Question Papers', placeholder: 'Paper title' }
+  { id: 'papers' as const, label: 'Question Papers', placeholder: 'Paper title' },
+  { id: 'custom' as const, label: 'Custom Resources', placeholder: 'Resource title' }
 ];
 
 export default function ResourceHub({ selectedSubject, subjects, resources, setResources }: ResourceHubProps) {

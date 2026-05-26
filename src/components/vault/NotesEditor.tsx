@@ -5,13 +5,14 @@ import { v4 as uuidv4 } from 'uuid';
 interface NotesEditorProps {
   subjectCode: string;
   notes: Note[];
+  modules: string[];
   onSave: (note: Note) => void;
 }
 
-export default function NotesEditor({ subjectCode, notes, onSave }: NotesEditorProps) {
+export default function NotesEditor({ subjectCode, modules, onSave }: NotesEditorProps) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [module, setModule] = useState(1);
+  const [module, setModule] = useState('');
 
   const preview = useMemo(() => content.replace(/\n/g, '<br/>'), [content]);
 
@@ -20,7 +21,7 @@ export default function NotesEditor({ subjectCode, notes, onSave }: NotesEditorP
     onSave({
       id: uuidv4(),
       subjectCode,
-      module,
+      module: module || modules[0] || 'General',
       title: title.trim(),
       content: content.trim(),
       createdAt: new Date().toISOString()
@@ -39,9 +40,10 @@ export default function NotesEditor({ subjectCode, notes, onSave }: NotesEditorP
         </label>
         <label className="flex flex-col gap-2 text-sm">
           Module
-          <select className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text" value={module} onChange={(event) => setModule(Number(event.target.value))}>
-            {[1, 2, 3, 4, 5].map((num) => (
-              <option key={num} value={num}>Module {num}</option>
+          <select className="rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text" value={module} onChange={(event) => setModule(event.target.value)}>
+            <option value="">General</option>
+            {modules.map((moduleName) => (
+              <option key={moduleName} value={moduleName}>{moduleName}</option>
             ))}
           </select>
         </label>

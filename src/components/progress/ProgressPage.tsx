@@ -1,26 +1,28 @@
 import { useMemo, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import { SubjectTopics, TopicProgress } from '../../types';
+import { Subject, SubjectTopics, TopicProgress } from '../../types';
 import StudyHeatmap from './StudyHeatmap';
 import { getSubjectTopics, getSubjectTopicStats } from '../../utils/topics';
 
 interface ProgressPageProps {
   selectedSubject: string;
+  subjects: Subject[];
   topics: SubjectTopics[];
   progress: TopicProgress[];
   setProgress: Dispatch<SetStateAction<TopicProgress[]>>;
 }
 
-export default function ProgressPage({ selectedSubject, topics, progress, setProgress }: ProgressPageProps) {
+export default function ProgressPage({ selectedSubject, subjects, topics, progress, setProgress }: ProgressPageProps) {
   const [targetSgpa, setTargetSgpa] = useState(9.0);
   const [studyHours, setStudyHours] = useState(0);
 
   const subjectStats = getSubjectTopicStats(topics, progress, selectedSubject);
   const subjectModules = getSubjectTopics(topics, selectedSubject);
   const daysLeft = useMemo(() => {
-    const subjectIndex = topics.findIndex((item) => item.subjectCode === selectedSubject);
-    return subjectIndex >= 0 ? (6 - subjectIndex) * 3 : 0;
-  }, [selectedSubject, topics]);
+    const examDate = subjects.find((subject) => subject.code === selectedSubject)?.examDate;
+    if (!examDate) return null;
+    return Math.ceil((new Date(examDate).getTime() - Date.now()) / 86400000);
+  }, [selectedSubject, subjects]);
 
   const heatmap = useMemo(() => {
     const entries = Array.from({ length: 21 }).map((_, index) => ({
@@ -33,7 +35,7 @@ export default function ProgressPage({ selectedSubject, topics, progress, setPro
   const message = subjectStats.total
     ? subjectStats.percentage >= 80
       ? 'You are on track for your target SGPA.'
-      : daysLeft <= 10
+      : daysLeft !== null && daysLeft <= 10
       ? 'Urgent focus needed to meet your study goals.'
       : 'Keep building momentum with steady daily hours.'
     : 'Pick a subject and begin updating progress.';
@@ -49,7 +51,7 @@ export default function ProgressPage({ selectedSubject, topics, progress, setPro
           <div className="text-sm uppercase tracking-[0.18em] text-muted">Target progress</div>
           <div className="mt-4 space-y-3">
             <div className="rounded-xl border border-border bg-bg p-3 text-sm">Target SGPA: {targetSgpa.toFixed(1)}</div>
-            <div className="rounded-xl border border-border bg-bg p-3 text-sm">Days until final exam period: {daysLeft}</div>
+            <div className="rounded-xl border border-border bg-bg p-3 text-sm">Days until selected exam: {daysLeft ?? 'Not set'}</div>
             <div className="rounded-xl border border-border bg-bg p-3 text-sm">Current status: {message}</div>
           </div>
           <div className="mt-4 space-y-3">
